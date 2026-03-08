@@ -53,10 +53,19 @@ document.addEventListener("DOMContentLoaded", function () {
       canvas.height = window.innerHeight;
     });
 
+    const getAssetsBase = () => {
+      // Calculate the base URL for assets by using the stylesheet path (which is consistent across pages).
+      const styleLink = document.querySelector('link[rel="stylesheet"][href*="css/style.css"]');
+      if (!styleLink) return "./";
+      const href = styleLink.href;
+      return href.replace(/\/css\/style\.css$/, "/");
+    };
+
+    const ASSETS_BASE = getAssetsBase();
     const beeImage = new Image();
-    beeImage.src = "/assets/images/bee-e1749633999355.png";
+    beeImage.src = ASSETS_BASE + "assets/images/bee-e1749633999355.png";
     const fireflyImage = new Image();
-    fireflyImage.src = "/assets/images/firefly_inv.png";
+    fireflyImage.src = ASSETS_BASE + "assets/images/firefly_inv.png";
     buzz.volume = 0.1;
 
     let animationId;

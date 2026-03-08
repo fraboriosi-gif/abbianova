@@ -45,7 +45,7 @@ body, a, button, input, textarea, select, label, [role="button"] {
 .backgrunge {
   position: absolute;
   inset: 0;
-  background-image: url("assets/images/grunge3.webp");
+  background-image: url("../assets/images/grunge3.webp");
   background-repeat: no-repeat;
   background-position: left top;
   background-size: cover;
@@ -54,6 +54,7 @@ body, a, button, input, textarea, select, label, [role="button"] {
   transform-origin: center center;
   will-change: transform;
   animation: backgrungeKenBurns 12s ease-in-out infinite alternate;
+  
 }
 
 @keyframes backgrungeKenBurns {
@@ -1088,7 +1089,7 @@ body.home-page .canvas-controls {
   background-color: #ededed;
   background-image:
     linear-gradient(rgba(237, 237, 237, 0.7), rgba(237, 237, 237, 0.9)),
-    url("assets/images/white-wall-texture-background.jpg");
+    url("../assets/images/white-wall-texture-background.jpg");
   background-size: cover;
   background-position: bottom;
   background-repeat: no-repeat;
@@ -1430,15 +1431,15 @@ body.manifesto-page .nectar-scrolling-tabs .menu-item::after {
 }
 
 body.manifesto-page .nectar-scrolling-tabs .menu-item:nth-child(1)::after {
-  background-image: url("assets/images/abbianova_4.jpeg");
+  background-image: url("../assets/images/abbianova_4.jpeg");
 }
 
 body.manifesto-page .nectar-scrolling-tabs .menu-item:nth-child(2)::after {
-  background-image: url("assets/images/abbianova_15.jpeg");
+  background-image: url("../assets/images/abbianova_15.jpeg");
 }
 
 body.manifesto-page .nectar-scrolling-tabs .menu-item:nth-child(3)::after {
-  background-image: url("assets/images/abbianova_24.jpeg");
+  background-image: url("../assets/images/abbianova_24.jpeg");
 }
 
 body.manifesto-page .nectar-scrolling-tabs .menu-item h2 {
@@ -2468,7 +2469,7 @@ body.senza-bianco-page .wine-slide-hero {
   padding: 120px 4vw 84px;
   background:
     linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.02)),
-    url("assets/images/SV_WEB.jpg") center top / cover no-repeat;
+    url("../assets/images/SV_WEB.jpg") center top / cover no-repeat;
 }
 
 body.senza-bianco-page .wine-hero-grid {
