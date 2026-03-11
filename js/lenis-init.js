@@ -11,6 +11,9 @@
     infinite: false,
   });
 
+  // expose for other scripts (e.g., parallax / scroll-driven effects)
+  window.lenis = lenis;
+
   const raf = (time) => {
     lenis.raf(time);
     requestAnimationFrame(raf);

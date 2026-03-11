@@ -7,6 +7,25 @@
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
   let ticking = false;
 
+  const updateActiveStep = () => {
+    const viewportMid = window.innerHeight / 2;
+    let closest = { index: 0, distance: Infinity };
+
+    steps.forEach((step, index) => {
+      const rect = step.getBoundingClientRect();
+      const mid = rect.top + rect.height / 2;
+      const distance = Math.abs(mid - viewportMid);
+
+      if (distance < closest.distance) {
+        closest = { index, distance };
+      }
+    });
+
+    steps.forEach((step, index) => {
+      step.classList.toggle("is-active", index === closest.index);
+    });
+  };
+
   const updateParallax = () => {
     if (window.matchMedia("(max-width: 900px)").matches) {
       steps.forEach((step) => {
@@ -45,10 +64,13 @@
   const requestUpdate = () => {
     if (ticking) return;
     ticking = true;
-    requestAnimationFrame(updateParallax);
+    requestAnimationFrame(() => {
+      updateActiveStep();
+      updateParallax();
+    });
   };
 
   window.addEventListener("scroll", requestUpdate, { passive: true });
   window.addEventListener("resize", requestUpdate, { passive: true });
-  updateParallax();
+  requestUpdate();
 })();
