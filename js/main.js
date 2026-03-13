@@ -561,4 +561,57 @@ if (wrapper && document.body.classList.contains("home-page")) {
     },
     { passive: false }
   );
+
+  // Mobile/tablet: swipe up/down to reveal footer (same behavior as wheel).
+  let touchStartY = 0;
+  let touchEndY = 0;
+
+  window.addEventListener(
+    "touchstart",
+    (e) => {
+      if (!e.touches || !e.touches[0]) return;
+      touchStartY = e.touches[0].clientY;
+      touchEndY = touchStartY;
+    },
+    { passive: true }
+  );
+
+  window.addEventListener(
+    "touchmove",
+    (e) => {
+      if (!e.touches || !e.touches[0]) return;
+      touchEndY = e.touches[0].clientY;
+      // Prevent "double swipe" while animating between sections.
+      if (isScrolling) e.preventDefault();
+    },
+    { passive: false }
+  );
+
+  window.addEventListener(
+    "touchend",
+    () => {
+      if (isScrolling) return;
+      const delta = touchEndY - touchStartY;
+      if (Math.abs(delta) < 55) return;
+
+      const maxSections = 2;
+      if (delta < 0 && currentSection < maxSections - 1) {
+        currentSection++;
+      } else if (delta > 0 && currentSection > 0) {
+        currentSection--;
+      } else {
+        return;
+      }
+
+      isScrolling = true;
+      const footerShift = footerSection ? footerSection.getBoundingClientRect().height : window.innerHeight;
+      const translateY = currentSection === 0 ? 0 : footerShift;
+      wrapper.style.transform = `translateY(-${translateY}px)`;
+
+      setTimeout(() => {
+        isScrolling = false;
+      }, 900);
+    },
+    { passive: true }
+  );
 }
