@@ -2594,7 +2594,7 @@ body.wine-detail-page {
   background: #dbd5c9;
   /* Per product page (set on <body style="...">):
      --wine-hero-bg-url, --wine-hero-bg-pos, --wine-accent, --wine-grad-1, --wine-grad-2 */
-  --wine-hero-bg-url: url("/assets/images/abbianova_33.jpeg");
+  --wine-hero-bg-url: url("../assets/images/abbianova_33.jpeg");
   /* Keep shorthand-safe separation: this can be `none` on solid-color heroes. */
   --wine-hero-bg-image: var(--wine-hero-bg-url);
   --wine-hero-bg-pos: center top;
@@ -2616,6 +2616,19 @@ body.wine-detail-page {
   --wine-grad-sat: 1.08;
   --wine-blob-a1: 0.92;
   --wine-blob-a2: 0.92;
+}
+
+/* GitHub Pages-safe hero backgrounds: keep URLs inside the stylesheet so they resolve relative to /css/style.css. */
+body.wine-detail-page.senza-bianco-page {
+  --wine-hero-bg-url: url("../assets/images/SV_WEB.jpg");
+  --wine-hero-bg-image: var(--wine-hero-bg-url);
+  --wine-hero-bg-pos: center top;
+}
+
+body.wine-detail-page.senzavandalismi-rosso-page {
+  --wine-hero-bg-url: url("../assets/images/SV_WEB_R.jpg");
+  --wine-hero-bg-image: var(--wine-hero-bg-url);
+  --wine-hero-bg-pos: center top;
 }
 
 body.wine-detail-page #page-wrapper.wine-product-wrapper {
