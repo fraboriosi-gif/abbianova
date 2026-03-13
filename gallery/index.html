@@ -26,7 +26,7 @@
       <img src="../assets/images/logo.svg" alt="Abbia Nòva">
     </a>
     <div class="site-header-right">
-      <a href="./" class="site-header-link">Gallery</a>
+      <a href="./" class="site-header-link header-slice" aria-label="Gallery"><span class="header-slice-track" aria-hidden="true"><span class="header-slice-face header-slice-face--base">Gallery</span><span class="header-slice-face header-slice-face--hover">Gallery</span></span></a>
       <a class="site-lang-switch" href="../en/gallery/" aria-label="Switch language to English">
         <span class="lang-track">
           <span class="lang-face lang-it"><img src="../assets/images/ITA_S.svg" alt="" aria-hidden="true"><span>IT</span></span>
@@ -34,10 +34,10 @@
         </span>
       </a>
       <div class="site-social" aria-label="Social">
-        <a href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-        <a href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-        <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-        <a href="#footer-outer" aria-label="Email"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+        <a href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Facebook" class="header-slice header-slice--icon"><span class="header-slice-track" aria-hidden="true"><span class="header-slice-face header-slice-face--base"><i class="fa fa-facebook" aria-hidden="true"></i></span><span class="header-slice-face header-slice-face--hover"><i class="fa fa-facebook" aria-hidden="true"></i></span></span></a>
+        <a href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn" class="header-slice header-slice--icon"><span class="header-slice-track" aria-hidden="true"><span class="header-slice-face header-slice-face--base"><i class="fa fa-linkedin" aria-hidden="true"></i></span><span class="header-slice-face header-slice-face--hover"><i class="fa fa-linkedin" aria-hidden="true"></i></span></span></a>
+        <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram" class="header-slice header-slice--icon"><span class="header-slice-track" aria-hidden="true"><span class="header-slice-face header-slice-face--base"><i class="fa fa-instagram" aria-hidden="true"></i></span><span class="header-slice-face header-slice-face--hover"><i class="fa fa-instagram" aria-hidden="true"></i></span></span></a>
+        <a href="#footer-outer" aria-label="Email" class="header-slice header-slice--icon"><span class="header-slice-track" aria-hidden="true"><span class="header-slice-face header-slice-face--base"><i class="fa fa-envelope" aria-hidden="true"></i></span><span class="header-slice-face header-slice-face--hover"><i class="fa fa-envelope" aria-hidden="true"></i></span></span></a>
       </div>
     </div>
   </header>
@@ -117,7 +117,7 @@
         </span>
       </h4>
 
-      <form id="contactForm" class="simple-form" action="/contatto.php" method="POST">
+      <form id="contactForm" class="simple-form" action="https://formspree.io/f/REPLACE_ME" method="POST">
         <textarea class="form-messaggio" name="messaggio" placeholder="Scrivi un messaggio..." rows="4"></textarea>
         <div class="form-newsletter">
           <input type="email" name="email" placeholder="La tua email" required>
@@ -157,9 +157,8 @@
 </div>
 
   <script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
-  <script defer src="../js/lenis-init.js"></script>
-  <script src="../js/header.js"></script>
-  <script src="../js/gallery-lightbox.js"></script>
-  <script src="../js/main.js"></script>
+  <script defer src="../js/header.js"></script>
+  <script defer src="../js/gallery-lightbox.js"></script>
+  <script defer src="../js/main.js"></script>
 </body>
 </html>
