@@ -1164,11 +1164,22 @@ body.home-page .canvas-controls {
 }
 
 .dynamic-words span {
-  display: none;
+  display: block;
+  grid-area: 1 / 1;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 420ms ease, transform 420ms ease;
+  transform: translateY(0);
+}
+
+.dynamic-words {
+  display: inline-grid;
+  align-items: baseline;
 }
 
 .dynamic-words span.active {
-  display: inline;
+  visibility: visible;
+  opacity: 1;
   font-weight: 700;
 }
 
@@ -1384,7 +1395,7 @@ body.home-page .canvas-controls {
   box-sizing: border-box;
   position: relative;
   width: 100%;
-  height: var(--footer-panel-height);
+  height: auto;
   min-height: var(--footer-panel-height);
   padding: clamp(34px, 5.5vh, 58px) 0 clamp(22px, 3vh, 32px);
   background-color: #ededed;
@@ -1407,25 +1418,34 @@ body.home-page .canvas-controls {
   .footer-inner {
     flex-direction: column;
     gap: 36px;
+    align-items: center;
   }
 
+  .footer-col-left,
   .footer-col-right {
-    text-align: left;
-    align-items: flex-start;
+    text-align: center;
+    align-items: center;
   }
 
   .footer-contact-row {
-    justify-content: flex-start;
+    justify-content: center;
   }
 
   .footer-bottom {
     margin-top: 24px;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
   }
 
   .footer-policy-links {
-    justify-content: flex-start;
+    justify-content: center;
+  }
+
+  .simple-form,
+  .form-messaggio,
+  .form-newsletter {
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 

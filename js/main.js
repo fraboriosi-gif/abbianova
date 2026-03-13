@@ -530,6 +530,20 @@ if (document.body.classList.contains("wine-detail-page")) {
 }
 
 if (wrapper && document.body.classList.contains("home-page")) {
+  // Ensure the wrapper is tall enough for the real footer height on responsive layouts.
+  let homeFooterShift = 0;
+  const updateHomeFooterMetrics = () => {
+    if (!footerSection) return;
+    // Use scrollHeight to capture full content even if layout changes with media queries.
+    const h = Math.ceil(footerSection.scrollHeight || footerSection.getBoundingClientRect().height || 0);
+    homeFooterShift = h;
+    // Inline height overrides CSS var-based height when footer gets taller on mobile.
+    wrapper.style.height = `${window.innerHeight + homeFooterShift}px`;
+  };
+
+  updateHomeFooterMetrics();
+  window.addEventListener("resize", updateHomeFooterMetrics);
+
   window.addEventListener(
     "wheel",
     (e) => {
@@ -551,7 +565,8 @@ if (wrapper && document.body.classList.contains("home-page")) {
       e.preventDefault();
       isScrolling = true;
 
-      const footerShift = footerSection ? footerSection.getBoundingClientRect().height : window.innerHeight;
+      updateHomeFooterMetrics();
+      const footerShift = homeFooterShift || (footerSection ? footerSection.getBoundingClientRect().height : window.innerHeight);
       const translateY = currentSection === 0 ? 0 : footerShift;
       wrapper.style.transform = `translateY(-${translateY}px)`;
 
@@ -604,7 +619,8 @@ if (wrapper && document.body.classList.contains("home-page")) {
       }
 
       isScrolling = true;
-      const footerShift = footerSection ? footerSection.getBoundingClientRect().height : window.innerHeight;
+      updateHomeFooterMetrics();
+      const footerShift = homeFooterShift || (footerSection ? footerSection.getBoundingClientRect().height : window.innerHeight);
       const translateY = currentSection === 0 ? 0 : footerShift;
       wrapper.style.transform = `translateY(-${translateY}px)`;
 
