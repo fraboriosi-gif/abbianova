@@ -42,6 +42,62 @@ body, a, button, input, textarea, select, label, [role="button"] {
   cursor: none;
 }
 
+/* Page transition (premium fade + blur, transparent bg) */
+.page-wipe {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20000;
+  /* Keep bg effectively transparent but allow backdrop-filter to render reliably. */
+  background: rgba(255, 255, 255, 0.001);
+  opacity: 0;
+  -webkit-backdrop-filter: blur(0px) saturate(1);
+  backdrop-filter: blur(0px) saturate(1);
+  transition:
+    opacity 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    -webkit-backdrop-filter 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    backdrop-filter 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body.is-page-leaving .page-wipe {
+  opacity: 1;
+  -webkit-backdrop-filter: blur(16px) saturate(1.05);
+  backdrop-filter: blur(16px) saturate(1.05);
+}
+
+body.is-page-leaving #custom-cursor {
+  opacity: 0;
+  transition: opacity 160ms ease;
+}
+
+/* Subtle vignette during transition to feel more "cinematic" without adding color. */
+.page-wipe::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 48%,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.06) 68%,
+    rgba(0, 0, 0, 0.12) 100%
+  );
+  opacity: 0;
+  transition: opacity 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body.is-page-leaving .page-wipe::after {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.is-page-leaving .page-wipe {
+    opacity: 1;
+  }
+  body.is-page-leaving .page-wipe::after {
+    opacity: 0;
+  }
+}
+
 .backgrunge {
   position: absolute;
   inset: 0;
@@ -1356,7 +1412,7 @@ body.manifesto-page .manifesto-italia-wrap {
 
 body.manifesto-page .manifesto-italia-wrap img {
   display: block;
-  width: 100%;
+  width: 60%;
   max-width: 900px;
   height: auto;
   object-fit: contain;
@@ -1383,7 +1439,7 @@ body.vini-page .hero-title-overlay {
   position: absolute;
   top: 0;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -70%);
   margin: 0;
   padding: 0 16px;
   font-size: 13vw;
@@ -1393,12 +1449,13 @@ body.vini-page .hero-title-overlay {
   font-family: Poppins, Arial, Helvetica, sans-serif;
   font-weight: 700;
   color: #5b5859;
-  filter: blur(0px);
-  opacity: 1;
+  /* Start hidden so it doesn't appear before the hero image reveal kicks in. */
+  filter: blur(18px);
+  opacity: 0;
   transition: filter 0.8s ease;
   z-index: 3;
   pointer-events: auto;
-  animation: heroTitleReveal 1.55s cubic-bezier(0.18, 0.88, 0.24, 1) 0.08s none;
+  animation: heroTitleDropIn 1.95s cubic-bezier(0.18, 0.88, 0.24, 1) 0.3s both;
 }
 
 body.manifesto-page .hero-title-overlay:hover,
@@ -1420,16 +1477,16 @@ body.gallery-page .hero h1 {
   font-weight: 900;
 }
 
-@keyframes heroTitleReveal {
+@keyframes heroTitleDropIn {
   0% {
     opacity: 0;
     filter: blur(18px);
-    transform: translate(-50%, -56%) scale(1.03);
+    transform: translate(-50%, -90%) scale(1.02);
   }
-  70% {
+  62% {
     opacity: 1;
-    filter: blur(1px);
-    transform: translate(-50%, -50%) scale(1);
+    filter: blur(2px);
+    transform: translate(-50%, -52%) scale(1);
   }
   100% {
     opacity: 1;
@@ -1821,6 +1878,13 @@ body.vini-page .vini-cru-title:hover {
   filter: blur(5px);
 }
 
+body.vini-page .vini-cru-divider {
+  width: 1px;
+  height: 100px;
+  background: #5b5859;
+  margin: -10px auto clamp(18px, 3vh, 26px);
+}
+
 body.vini-page .vini-cru-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -1843,11 +1907,7 @@ body.vini-page .vini-cru-grid .vini-featured-link {
   width: 100%;
 }
 
-body.vini-page .vini-cru-grid .vini-featured-link img {
-  width: 96%;
-  max-width: none;
-  height: 690px;
-}
+
 
 body.vini-page .vini-cru-grid .vino-nome {
   top: 0;
@@ -2100,6 +2160,7 @@ body.manifesto-page .manifesto-carousel-section {
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
   padding: 0;
+  background: #7a95a8;
 }
 
 body.manifesto-page .manifesto-carousel-headline {
@@ -2126,8 +2187,11 @@ body.manifesto-page .manifesto-carousel-headline h5 {
 body.manifesto-page .manifesto-carousel {
   position: relative;
   overflow: hidden;
-  min-height: 700px;
-  height: clamp(620px, 78vh, 920px);
+  /* Fullwidth with fixed aspect ratio (WPBakery "aspect-2-1"). */
+  width: 100%;
+  margin: 0;
+  aspect-ratio: 2 / 1;
+  height: auto;
   background: #7a95a8;
   touch-action: pan-y;
 }
@@ -2158,10 +2222,11 @@ body.manifesto-page .manifesto-carousel-bg {
 
 body.manifesto-page .manifesto-carousel-bg img {
   width: 100%;
-  height: 150%;
+  height: 100%;
   object-fit: cover;
-  object-position: center center;
-  transform: translate3d(0, var(--carousel-parallax), 0);
+  object-position: center;
+  /* Keep a little oversize so the parallax translate doesn't reveal edges. */
+  transform: translate3d(0, var(--carousel-parallax), 0) scale(1.12);
   transition: transform 0.08s linear;
   display: block;
 }
@@ -2171,7 +2236,7 @@ body.manifesto-page .manifesto-carousel-bg.bg-pos-center-top img {
 }
 
 body.manifesto-page .manifesto-carousel-bg.bg-pos-center-bottom img {
-  object-position: center bottom;
+  object-position: center top;
 }
 
 body.manifesto-page .manifesto-carousel-overlay {
@@ -2571,8 +2636,7 @@ body.gallery-page #footer-outer {
   }
 
   body.manifesto-page .manifesto-carousel {
-    min-height: 460px;
-    height: clamp(460px, 64vh, 680px);
+    width: 100%;
   }
 
   body.manifesto-page .manifesto-carousel-headline {
@@ -2582,8 +2646,7 @@ body.gallery-page #footer-outer {
 
 @media (max-width: 640px) {
   body.manifesto-page .manifesto-carousel {
-    min-height: 360px;
-    height: clamp(360px, 56vh, 520px);
+    width: 100%;
   }
 }
 

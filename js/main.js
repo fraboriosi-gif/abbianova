@@ -1,5 +1,75 @@
 // IMG SEQUENCE
 
+// Page transition (smooth swoosh left -> right) for internal navigation.
+(() => {
+  let isLeaving = false;
+  const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const ensureWipe = () => {
+    if (!document.body) return null;
+    let wipe = document.querySelector(".page-wipe");
+    if (wipe) return wipe;
+    wipe = document.createElement("div");
+    wipe.className = "page-wipe";
+    document.body.appendChild(wipe);
+    return wipe;
+  };
+
+  const startLeave = (href) => {
+    if (isLeaving) return;
+    isLeaving = true;
+    ensureWipe();
+    document.body.classList.add("is-page-leaving");
+    if (reduceMotion) {
+      window.location.href = href;
+      return;
+    }
+    // Navigate after the wipe has mostly covered the viewport.
+    window.setTimeout(() => {
+      window.location.href = href;
+    }, 520);
+  };
+
+  // Reset on bfcache restore / normal navigation.
+  window.addEventListener("pageshow", () => {
+    isLeaving = false;
+    document.body && document.body.classList.remove("is-page-leaving");
+  });
+
+  document.addEventListener("DOMContentLoaded", ensureWipe, { once: true });
+
+  document.addEventListener("click", (e) => {
+    if (e.defaultPrevented) return;
+    if (e.button !== 0) return;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
+    const a = e.target && e.target.closest ? e.target.closest("a") : null;
+    if (!a) return;
+    if (a.dataset && a.dataset.noTransition === "true") return;
+    if (a.hasAttribute("download")) return;
+
+    const target = a.getAttribute("target");
+    if (target && target !== "_self") return;
+
+    const rawHref = a.getAttribute("href") || "";
+    if (!rawHref) return;
+    if (rawHref.startsWith("#")) return;
+    if (/^(mailto:|tel:|javascript:)/i.test(rawHref)) return;
+
+    let url;
+    try {
+      url = new URL(a.href, window.location.href);
+    } catch {
+      return;
+    }
+    if (url.origin !== window.location.origin) return;
+    if (url.pathname === window.location.pathname && url.search === window.location.search && url.hash) return;
+
+    e.preventDefault();
+    startLeave(url.href);
+  });
+})();
+
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.querySelector(".img-sequence-container");
   if (!container) return;
