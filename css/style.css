@@ -565,6 +565,110 @@ body.wine-detail-page[data-wine-section="0"] .site-header {
   .site-social {
     gap: 10px;
   }
+
+  /* Home responsive: stack logos + sequencer + controls */
+  body.home-page #hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* left logo, sequencer, right logo, then nav+controls row */
+    grid-template-rows: auto auto auto auto;
+    align-items: center;
+    justify-items: center;
+    row-gap: 10px;
+    padding-top: 96px; /* keep clear of fixed header */
+    padding-bottom: 44px; /* keep clear of bottom divider */
+    box-sizing: border-box;
+  }
+
+  body.home-page #hero .layout {
+    display: contents;
+  }
+
+  body.home-page #hero .logo_home {
+    width: min(78vw, 340px);
+    justify-content: center;
+  }
+
+  body.home-page #hero .logo-left {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+  }
+
+  body.home-page #hero .logo-right {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+  }
+
+  body.home-page #hero .hero {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  body.home-page #hero .img-sequence-container {
+    height: auto;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Links left, stacked under the first logo. */
+  body.home-page #hero .fixed-bottom-links {
+    grid-column: 1;
+    grid-row: 4;
+    position: static;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    width: auto;
+    max-width: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+    margin-left: max(18px, 3vw);
+    margin-top: 18px;
+  }
+
+  body.home-page #hero .fixed-bottom-links a {
+    font-size: clamp(28px, 7vw, 44px);
+    padding: 6px 0;
+  }
+
+  /* Lottie + Firefly at the same height, aligned right. */
+  body.home-page #hero .canvas-controls {
+    grid-column: 2;
+    grid-row: 4;
+    position: static;
+    height: auto;
+    transform: none;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    margin-right: max(18px, 3vw);
+    margin-top: 18px;
+    opacity: 1;
+    animation: none;
+  }
+
+  body.home-page #hero #startButton,
+  body.home-page #hero #toggleMode {
+    position: static;
+    right: auto;
+    bottom: auto;
+    opacity: 1;
+    animation: none;
+  }
 }
 
 @media (max-width: 690px) {
@@ -739,24 +843,19 @@ body.invert-colors #footer-outer {
 }
 
 @media (max-width: 999px) {
-    .canvas-controls {
-        position: absolute;
-        height: 0;
-        transform: none;
-    }
-    
-      #toggleMode {
-        position: fixed;
-        bottom: -40px;
-        right: 10px;
-        justify-content: center;
-}
-  
-  #startButton {
-        position: fixed;
-        bottom: -40px;
-        right: 15px;
+  /* Home: keep controls in-flow (not fixed to viewport bottom). */
+  body.home-page #hero .canvas-controls {
+    position: static;
+    height: auto;
+    transform: none;
+  }
 
+  body.home-page #hero #toggleMode,
+  body.home-page #hero #startButton {
+    position: static;
+    bottom: auto;
+    right: auto;
+    margin: 0;
   }
 }
 
