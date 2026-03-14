@@ -586,7 +586,7 @@ body.wine-detail-page[data-wine-section="0"] .site-header {
   }
 
   body.home-page #hero .logo_home {
-    width: min(78vw, 340px);
+    width: min(78vw, 485px);
     justify-content: center;
   }
 
@@ -2879,6 +2879,10 @@ body.wine-detail-page {
   --wine-grad-sat: 1.08;
   --wine-blob-a1: 0.92;
   --wine-blob-a2: 0.92;
+  /* Responsive layout knobs (can be overridden by media queries). */
+  --wine-specs-top-gap: clamp(10px, 4vh, 64px);
+  --wine-hero-pad-top: clamp(76px, 10vh, 110px);
+  --wine-hero-pad-bottom: clamp(28px, 6vh, 70px);
 }
 
 /* GitHub Pages-safe hero backgrounds: keep URLs inside the stylesheet so they resolve relative to /css/style.css. */
@@ -2919,7 +2923,8 @@ body.wine-detail-page .wine-page-wrap {
 }
 
 body.wine-detail-page .wine-slide {
-  min-height: var(--wine-vh, 100vh);
+  /* Snap logic uses viewport height; lock slides to the same px value. */
+  height: var(--wine-vh, 100vh);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -3030,6 +3035,14 @@ body.wine-detail-page .wine-slide-specs {
   background: #dbd5c9;
 }
 
+/* Desktop: lock to 100vh to avoid tiny gaps from visualViewport rounding. */
+@media (hover: hover) and (pointer: fine) {
+  body.wine-detail-page .wine-slide,
+  body.wine-detail-page .wine-slide-specs {
+    height: 100vh;
+  }
+}
+
 body.wine-detail-page .wine-slide-specs::before {
   content: "";
   position: absolute;
@@ -3043,8 +3056,9 @@ body.wine-detail-page .wine-slide-specs::before {
 
 body.wine-detail-page .wine-specs-inner {
   width: min(1680px, 92%);
-  margin: 64px auto 0;
-  height: 100%;
+  /* Keep the inner scroller fully inside the slide even on short viewports. */
+  margin: var(--wine-specs-top-gap, 64px) auto 0;
+  height: calc(100% - var(--wine-specs-top-gap, 64px));
   overflow-y: auto;
   padding-right: 0;
   position: relative;
@@ -3056,6 +3070,8 @@ body.wine-detail-page .wine-specs-inner {
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
 }
+
+/* Wine pages: use the shared footer styling (desktop-perfect). */
 
 body.wine-detail-page .wine-specs-inner::-webkit-scrollbar {
   width: 0;
@@ -3234,7 +3250,27 @@ body.wine-detail-page .wine-back-link:focus-visible {
     grid-template-columns: 1fr;
     gap: 20px;
     text-align: center;
-    padding: 110px 4vw 70px;
+    /* Scale paddings with viewport height so slide 1 remains fully visible. */
+    padding: var(--wine-hero-pad-top, clamp(76px, 10vh, 110px)) 4vw var(--wine-hero-pad-bottom, clamp(28px, 6vh, 70px));
+  margin: 0;
+  }
+
+        
+
+  /* On small widths, the hero becomes a vertical stack: cap each element to avoid overflow/cropping. */
+  body.wine-detail-page .wine-hero-logo {
+    width: min(520px, 74%);
+    max-height: min(18vh, 180px);
+  }
+
+  body.wine-detail-page .wine-hero-bottle {
+    width: min(560px, 92%);
+    max-height: min(55vh, calc(var(--wine-vh, 100vh) - 340px));
+  }
+
+  body.wine-detail-page .wine-hero-badge {
+    width: min(520px, 74%);
+    max-height: min(18vh, 170px);
   }
 
   body.wine-detail-page .wine-slide-specs {
@@ -3247,11 +3283,11 @@ body.wine-detail-page .wine-back-link:focus-visible {
 
   body.wine-detail-page .wine-specs-image {
     width: min(320px, 52%);
-    height: min(44vh, 420px);
+    height: min(44vh, 320px);
   }
 
   body.wine-detail-page .wine-spec-row {
-    grid-template-columns: 1fr;
+  /*  grid-template-columns: 1fr; */
     row-gap: 4px;
   }
 }
@@ -3276,6 +3312,16 @@ body.wine-detail-page .wine-back-link:focus-visible {
 }
 
 @media (max-height: 760px) {
+  body.wine-detail-page {
+    --wine-specs-top-gap: clamp(10px, 4vh, 44px);
+    --wine-hero-pad-top: clamp(62px, 9vh, 96px);
+    --wine-hero-pad-bottom: clamp(22px, 6vh, 56px);
+  }
+
+  body.wine-detail-page .wine-slide-specs {
+    padding: clamp(74px, 10vh, 96px) 0 clamp(54px, 8vh, 72px);
+  }
+
   body.wine-detail-page .wine-hero-logo {
     max-height: calc(var(--wine-vh, 100vh) - 320px);
   }

@@ -14,10 +14,14 @@
   let lastWheelAt = 0;
   let gestureEndAt = 0;
   let snappedInGesture = false;
+  let rafResize = 0;
+  const isDesktop = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
   const getViewportHeight = () => {
-    // visualViewport tracks the actual visible area (mobile URL bar, etc).
-    return Math.round(window.visualViewport?.height || window.innerHeight || 0);
+    // On mobile, visualViewport tracks the true visible area (URL bar etc).
+    // On desktop, prefer innerHeight to match 100vh more consistently.
+    const h = isDesktop ? (window.innerHeight || 0) : (window.visualViewport?.height || window.innerHeight || 0);
+    return Math.round(h);
   };
 
   const syncViewportVars = () => {
@@ -27,12 +31,21 @@
     body.style.setProperty("--wine-2vh", `${twoVh}px`);
   };
 
+  const syncWrapperHeight = () => {
+    // Keep the wrapper height in px in sync with the snap distances.
+    const vh = getViewportHeight();
+    // Footer is a fixed-height panel (like home). Any overflow is handled by internal scrolling.
+    const footerPanel = Math.round(footer.getBoundingClientRect().height || 0);
+    const total = vh * 2 + footerPanel;
+    wrapper.style.height = `${total}px`;
+    return { vh, footerPanel };
+  };
+
   const setSection = (nextSection) => {
     currentSection = Math.max(0, Math.min(totalSections - 1, nextSection));
 
     syncViewportVars();
-    const footerHeight = Math.round(footer.getBoundingClientRect().height || 0);
-    const slideHeight = getViewportHeight();
+    const { vh: slideHeight, footerPanel: footerHeight } = syncWrapperHeight();
     const offset =
       currentSection === 0 ? 0 : currentSection === 1 ? slideHeight : slideHeight + footerHeight;
 
@@ -48,6 +61,7 @@
   // Initialize state.
   body.dataset.wineSection = "0";
   syncViewportVars();
+  syncWrapperHeight();
   setSection(0);
 
   const onWheel = (event) => {
@@ -110,7 +124,13 @@
     }, 980);
   };
 
+  const onResize = () => {
+    window.cancelAnimationFrame(rafResize);
+    rafResize = window.requestAnimationFrame(() => setSection(currentSection));
+  };
+
   window.addEventListener("wheel", onWheel, { passive: false });
-  window.addEventListener("resize", () => setSection(currentSection), { passive: true });
-  window.visualViewport?.addEventListener("resize", () => setSection(currentSection), { passive: true });
+  window.addEventListener("resize", onResize, { passive: true });
+  window.visualViewport?.addEventListener("resize", onResize, { passive: true });
+
 })();
