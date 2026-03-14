@@ -902,6 +902,14 @@ body.invert-colors #footer-outer {
     right: auto;
     margin: 0;
   }
+
+  body.manifesto-page .manifesto-sticky-sequence .scrolling-tab-content
+
+ {    max-width: 100% !important;
+    padding: 0 18px !important;
+
+
+}
 }
 
 .backgrunge 
@@ -2605,7 +2613,7 @@ body.gallery-page #footer-outer {
   }
 
   body.vini-page .vini-featured-link img {
-    height: clamp(520px, 78vw, 860px);
+    height: clamp(520px, 100vw, 860px);
   }
 
   body.vini-page .wines-grid {
@@ -2613,12 +2621,11 @@ body.gallery-page #footer-outer {
   }
 
   body.vini-page .vini-featured-grid {
-    width: min(980px, 94vw);
+    width: min(980px, 100vw);
     grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: 0;
     row-gap: clamp(14px, 3.8vw, 24px);
-    margin-left: auto;
-    margin-right: auto;
+  
   }
 
   body.vini-page .vini-featured-grid .vini-featured-item:nth-child(1),
@@ -2632,9 +2639,8 @@ body.gallery-page #footer-outer {
 
   body.vini-page .vini-cru-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    width: min(1200px, 96vw);
-    margin-left: auto;
-    margin-right: auto;
+    width: min(1200px, 100vw);
+
     row-gap: 12px;
   }
 
@@ -2713,7 +2719,7 @@ body.gallery-page #footer-outer {
 
   body.vini-page .vini-cru-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    width: min(820px, 92vw);
+    width: min(820px, 100vw);
   }
 
   body.vini-page .vini-cru-grid .vini-featured-link img {
@@ -2725,6 +2731,15 @@ body.gallery-page #footer-outer {
     width: 88%;
     padding-top: 120px;
   }
+
+ body.vini-page .vino-hover-container .vino-nome {
+    font-size: 6vw !important;
+  }
+
+  body.vini-page .vini-cru-grid .vini-featured-link img {
+        height: clamp(770px, 62vw, 700px);
+    }
+
 }
 
 @media (max-width: 640px) {
@@ -2787,6 +2802,7 @@ body.gallery-page #footer-outer {
     height: auto;
     grid-template-columns: 1fr;
     gap: 20px;
+    text-align: center;
   }
 
   body.manifesto-page .manifesto-sticky-sequence .manifesto-step-left {
@@ -2810,12 +2826,28 @@ body.gallery-page #footer-outer {
   body.manifesto-page .manifesto-carousel-headline {
     inset: 0;
   }
+.fixed-bottom-links a
+ {
+    font-size: 5vw;
+}
+
+body.manifesto-page .main-shell .fixed-bottom-links {
+    bottom: 3px;
+
+}
+
+ body.vini-page .vini-highlight
+ {
+    font-size: clamp(2.1rem, 1.75vw, 3.2rem);
+}
 }
 
 @media (max-width: 640px) {
   body.manifesto-page .manifesto-carousel {
     width: 100%;
   }
+
+ 
 }
 
 /* Single wine page: SenzaVandalismi Bianco (home-like fullscreen rows) */
