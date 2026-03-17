@@ -3165,8 +3165,8 @@ body.wine-detail-page .wine-specs-divider {
 }
 
 body.wine-detail-page .wine-specs-description {
-margin: 0 auto 32px;
-    /* max-width: 1280px; */
+   /* margin: 0 auto 32px;
+ max-width: 1280px; */
     font-size: clamp(0.95rem, 1vw, 1.08rem);
     line-height: 1.55;
     color: #5b5859;
@@ -3192,7 +3192,7 @@ body.wine-detail-page .wine-specs-image-wrap {
 
 body.wine-detail-page .wine-specs-image {
   width: min(420px, 78%);
-  height: min(52vh, 520px);
+  height: min(45vh, 520px);
   object-fit: contain;
 }
 
