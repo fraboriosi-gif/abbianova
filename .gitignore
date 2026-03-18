@@ -1,0 +1,12 @@
+# file temporanei
+*.tmp
+.tmp*
+
+# nectar (salient / wpbakery)
+.tmp-nectar-*
+
+# mac
+.DS_Store
+
+# vscode (opzionale)
+.vscode/
